@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoboDave", "RoboDave\RoboDave.csproj", "{2736F3E6-9E0C-4FA1-AE75-A61F4CE96DB9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoboDave", "RoboDave.csproj", "{2736F3E6-9E0C-4FA1-AE75-A61F4CE96DB9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,6 +20,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {2ABC5ED8-99CD-4EA2-A6FA-C6379CAB1923}
+		SolutionGuid = {C9915E92-18F6-4F4C-A700-062D9501F3C3}
 	EndGlobalSection
 EndGlobal
