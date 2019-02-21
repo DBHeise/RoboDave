@@ -1,0 +1,4 @@
+language: csharp
+solution: RoboDave.sln
+script:
+  - msbuild /p:Configuration=Release .\RoboDave.sln
