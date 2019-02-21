@@ -10,6 +10,7 @@
 * Get-RemoteAddresses - returns the IPAddress returned from a remote service
 ### Forensics
 * Get-BrowserHistory - returns a list of URLs/Domains found in each browser's history (IE, Chrome, Firefox)
+* Get-FileHashBulk - computes multiple hashes for a given file (or files)
 ### Random
 * Get-RandomCoordinate - generates a random lat&lon 
 * Get-RandomDateTime - generates a random DateTime (relative to now)

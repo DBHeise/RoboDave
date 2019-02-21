@@ -30,43 +30,54 @@ namespace RoboDave.Forensic
     {
         public FileHashCmdlet()
         {
-            this.Hashes = new string[] { "md5", "sha1", "sha256", "sha512" };
+            this.Algorithms = new string[] { "md5", "sha1", "sha256" };
         }
 
         [Parameter(Mandatory = false, HelpMessage = "List of hashes to compute")]
-        public String[] Hashes { get; set; } //https://docs.microsoft.com/en-us/dotnet/api/system.security.cryptography.hashalgorithm.create?view=netframework-4.7#System_Security_Cryptography_HashAlgorithm_Create_System_String_
+        public String[] Algorithms { get; set; } //https://docs.microsoft.com/en-us/dotnet/api/system.security.cryptography.hashalgorithm.create?view=netframework-4.7#System_Security_Cryptography_HashAlgorithm_Create_System_String_
 
-        [Parameter(Mandatory = true, ValueFromPipeline = true, HelpMessage = "List of hashes to compute")]
-        public String InputFile { get; set; }
+        [Parameter(Mandatory = true, ValueFromPipeline = true, ValueFromPipelineByPropertyName =true, HelpMessage = "List of algorithms")]
+        [Alias("FullName")]
+        public String[] InputFiles { get; set; }
+
+        private Dictionary<String, HashAlgorithm> map;
 
         protected override void BeginProcessing()
         {
-            Dictionary<String, HashAlgorithm> map = new Dictionary<string, HashAlgorithm>();
+            map = new Dictionary<string, HashAlgorithm>();
 
             //Create hashers
-            foreach (var hsh in this.Hashes)
+            foreach (var hsh in this.Algorithms)
             {
                 map.Add(hsh, HashAlgorithm.Create(hsh));
             }
+        }
 
+        protected override void ProcessRecord()
+        {
             //Calculate hashes
-            using (FileStream stream = File.Open(this.InputFile, System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.ReadWrite))
+            foreach (string file in this.InputFiles)
             {
-                foreach (var h in map)
+                WriteVerbose("Processing file: " + file);
+                using (FileStream stream = File.Open(file, System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.ReadWrite))
                 {
-                    var hr = new HashResult(h.Key, h.Value.ComputeHash(stream), this.InputFile);
-                    stream.Seek(0, SeekOrigin.Begin); //have to reset the stream in order for the hash to get computed again
-                    WriteObject(hr);
+                    foreach (var h in map)
+                    {
+                        var hr = new HashResult(h.Key, h.Value.ComputeHash(stream), file);
+                        stream.Seek(0, SeekOrigin.Begin); //have to reset the stream in order for the hash to get computed again
+                        WriteObject(hr);
+                    }
                 }
             }
+        }
 
+        protected override void EndProcessing()
+        {
             //Dispose hashers
             foreach (var h in map)
             {
                 h.Value.Dispose();
             }
-
-
         }
     }
 }
