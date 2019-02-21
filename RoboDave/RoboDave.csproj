@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Extensions.cs" />
     <Compile Include="Forensic\BrowserHistory.cs" />
+    <Compile Include="Forensic\FileHash.cs" />
     <Compile Include="Generators\Bitmap.cs" />
     <Compile Include="Generators\Coordinate.cs" />
     <Compile Include="Generators\DateTime.cs" />
