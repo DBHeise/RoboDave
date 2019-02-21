@@ -1,5 +1,5 @@
 # RoboDave - a powershell Module for misc stuff
-[![Build Status](https://travis-ci.org/DBHeise/RoboDave.svg?branch=master)](https://travis-ci.org/DBHeise/RoboDave)
+[![Build Status](https://h2net.visualstudio.com/RoboDave/_apis/build/status/DBHeise.RoboDave?branchName=master)](https://h2net.visualstudio.com/RoboDave/_build/latest?definitionId=1&branchName=master)
 
 
 
