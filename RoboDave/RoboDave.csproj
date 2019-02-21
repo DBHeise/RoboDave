@@ -38,6 +38,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.PowerShell.5.ReferenceAssemblies.1.1.0\lib\net4\System.Management.Automation.dll</HintPath>
     </Reference>
@@ -47,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Extensions.cs" />
     <Compile Include="Forensic\BrowserHistory.cs" />
+    <Compile Include="Generators\Bitmap.cs" />
     <Compile Include="Generators\Coordinate.cs" />
     <Compile Include="Generators\DateTime.cs" />
     <Compile Include="Generators\MadLib.cs" />
