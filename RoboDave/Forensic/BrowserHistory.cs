@@ -64,7 +64,7 @@ namespace RoboDave.Forensic
                             var o = new BrowserHistory()
                             {
                                 User = user.Value,
-                                Browser = "IE",
+                                Browser = "IE_Typed",
                                 Url = val
                             };
                             WriteObject(o);
