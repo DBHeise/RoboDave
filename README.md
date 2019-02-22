@@ -16,6 +16,7 @@
 * Get-RandomDateTime - generates a random DateTime (relative to now)
 * Get-RandomMEID - generates a random MEID
 * Get-RandomString - generates a random string (many options)
+* Get-RandomExcuse - generates a simple excuse letter
 #### MadLib
 * Use-MadLib - fills out a MadLib string
 * New-MadLib - creates a MadLib string from text
