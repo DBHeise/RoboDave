@@ -8,7 +8,7 @@ namespace RoboDave.Generators
     using System.Collections;
 
 
-    [Cmdlet(VerbsCommon.Get, "RandomMEID", SupportsShouldProcess = true)]
+    [Cmdlet(VerbsCommon.New, "RandomMEID", SupportsShouldProcess = true)]
     [OutputType(typeof(String))]
     public class RandomMEIDCmdlet : PSCmdlet
     {

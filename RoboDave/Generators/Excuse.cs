@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RoboDave.Generators
 {
-    [Cmdlet(VerbsCommon.Get, "RandomExcuse", SupportsShouldProcess = true)]
+    [Cmdlet(VerbsCommon.New, "RandomExcuse", SupportsShouldProcess = true)]
     [OutputType(typeof(String))]
     public class RandomExcuseCmdlet : PSCmdlet
     {

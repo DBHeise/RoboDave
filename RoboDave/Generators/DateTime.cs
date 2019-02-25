@@ -6,7 +6,7 @@ namespace RoboDave.Generators
     using System.Text;
     using System.Management.Automation;
 
-    [Cmdlet(VerbsCommon.Get, "RandomDateTime", SupportsShouldProcess = true)]
+    [Cmdlet(VerbsCommon.New, "RandomDateTime", SupportsShouldProcess = true)]
     [OutputType(typeof(DateTime))]
     public class RandomDateTimeCmdlet : PSCmdlet
     {

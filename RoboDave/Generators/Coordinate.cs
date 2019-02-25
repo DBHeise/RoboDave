@@ -7,7 +7,7 @@ namespace RoboDave.Generators
     using System.Management.Automation;
     using System.Text;
 
-    [Cmdlet(VerbsCommon.Get, "RandomCoordinate", SupportsShouldProcess = true)]
+    [Cmdlet(VerbsCommon.New, "RandomCoordinate", SupportsShouldProcess = true)]
     [OutputType(typeof(RoboDave.Geo.Coordinate))]
     public class RandomCoordinateCmdlet : PSCmdlet
     {

@@ -10,7 +10,7 @@ namespace RoboDave.Generators
     using System.Management.Automation;
     using RoboDave.Random;
 
-    [Cmdlet(VerbsCommon.Get, "RandomString", SupportsShouldProcess = true)]
+    [Cmdlet(VerbsCommon.New, "RandomString", SupportsShouldProcess = true)]
     [OutputType(typeof(String))]
     public class RandomStringCmdlet : PSCmdlet
     {

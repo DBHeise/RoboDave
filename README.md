@@ -12,11 +12,11 @@
 * Get-BrowserHistory - returns a list of URLs/Domains found in each browser's history (IE, Chrome, Firefox)
 * Get-FileHashBulk - computes multiple hashes for a given file (or files)
 ### Random
-* Get-RandomCoordinate - generates a random lat&lon 
-* Get-RandomDateTime - generates a random DateTime (relative to now)
-* Get-RandomMEID - generates a random MEID
-* Get-RandomString - generates a random string (many options)
-* Get-RandomExcuse - generates a simple excuse letter
+* New-RandomCoordinate - generates a random lat&lon 
+* New-RandomDateTime - generates a random DateTime (relative to now)
+* New-RandomMEID - generates a random MEID
+* New-RandomString - generates a random string (many options)
+* New-RandomExcuse - generates a simple excuse letter
 #### MadLib
 * Use-MadLib - fills out a MadLib string
 * New-MadLib - creates a MadLib string from text
