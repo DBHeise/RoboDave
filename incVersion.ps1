@@ -8,7 +8,7 @@ $regex= [regex]'AssemblyVersion\(\"(?<version>[^\)]+)\"\)'
 $oldVersion = [version]$regex.Matches($AssemblyInfo).Groups[1].value
 $oldVersionStr = $oldVersion.ToString()
 
-$newVersion = $oldVersion.Major.ToString() + "." + ($oldVersion.Minor+0).ToString() + "." +[DateTime]::Now.ToString("yyMM.ddHH")
+$newVersion = $oldVersion.Major.ToString() + "." + ($oldVersion.Minor).ToString() + "." + ($oldVersion.Build+1).ToString() + "." + [DateTime]::Now.ToString("ddHH")
 
 $AssemblyInfo.Replace($oldVersionStr, $newVersion) | Set-Content -Path $AssemblyInfoFile
 
