@@ -17,6 +17,7 @@
 * New-RandomMEID - generates a random MEID
 * New-RandomString - generates a random string (many options)
 * New-RandomExcuse - generates a simple excuse letter
+* New-RandomFile - generates a random filled file
 #### MadLib
 * Use-MadLib - fills out a MadLib string
 * New-MadLib - creates a MadLib string from text

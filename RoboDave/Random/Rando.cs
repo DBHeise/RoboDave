@@ -124,6 +124,13 @@ namespace RoboDave
             throw new NotSupportedException();
         }
 
+        public static byte[] GetBytes(UInt64 length)
+        {
+            RandomNumberGenerator randomNumGen = RandomNumberGenerator.Create();
+            byte[] randomBytes = new byte[length];
+            randomNumGen.GetBytes(randomBytes);
+            return randomBytes;
+        }
         public static byte[] GetBytes(int length)
         {
             RandomNumberGenerator randomNumGen = RandomNumberGenerator.Create();

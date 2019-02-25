@@ -53,6 +53,7 @@
     <Compile Include="Generators\Coordinate.cs" />
     <Compile Include="Generators\DateTime.cs" />
     <Compile Include="Generators\Excuse.cs" />
+    <Compile Include="Generators\File.cs" />
     <Compile Include="Generators\MadLib.cs" />
     <Compile Include="Generators\MEID.cs" />
     <Compile Include="Generators\Strings.cs" />
