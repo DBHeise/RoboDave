@@ -53,6 +53,11 @@ namespace RoboDave
             return new string(arr);
         }
 
+        public static String ToTitleCase(this String input)
+        {
+            return System.Globalization.CultureInfo.InvariantCulture.TextInfo.ToTitleCase(input.ToLower());
+        }
+
         public static String[] SplitAtFirst(this String input, char splitter)
         {
             int idx = input.IndexOf(splitter);
