@@ -5,8 +5,9 @@ $AssemblyInfo = Get-Content $AssemblyInfoFile -Raw
 
 $regex= [regex]'AssemblyVersion\(\"(?<version>[^\)]+)\"\)'
 
-$oldVersion = [version]$regex.Matches($AssemblyInfo).Groups[1].value
-$oldVersionStr = $oldVersion.ToString()
+$oldVersionStr = $regex.Matches($AssemblyInfo).Groups[1].value
+$oldVersion = [version]$oldVersionStr
+
 
 $newVersion = $oldVersion.Major.ToString() + "." + ($oldVersion.Minor).ToString() + "." + ($oldVersion.Build+1).ToString() + "." + [DateTime]::Now.ToString("ddHH")
 
