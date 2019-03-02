@@ -11,7 +11,7 @@ namespace RoboDave.Forensic
     {
         public String User { get; set; }
         public String Browser { get; set; }
-        //public DateTime Timestamp { get; set; }
+        public DateTime? Timestamp { get; set; }
         public String Url { get; set; }
     }
 
@@ -30,6 +30,7 @@ namespace RoboDave.Forensic
             {
                 case "ie":
                     GetIETypedUrls();
+                    GetIEHistory2();
                     break;
                 case "chrome":
                     GetChromeHistory();
@@ -45,6 +46,21 @@ namespace RoboDave.Forensic
             }
         }
 
+        private void GetIEHistory2()
+        {
+            BrowserHistory_ie ieh = new BrowserHistory_ie();
+            var his1 = ieh.GetHistory_WinINet();
+            foreach(var o in his1)
+            {
+                WriteObject(o);
+            }
+            var his2 = ieh.GetHistory_IE();
+            foreach(var o in his2)
+            {
+                WriteObject(o);
+            }
+
+        }
 
         private static String ieregexUserMatch = @"S-1-5-21-[0-9]+-[0-9]+-[0-9]+-[0-9]+$";
         private void GetIETypedUrls()
