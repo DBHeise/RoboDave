@@ -40,6 +40,7 @@ namespace RoboDave.Forensic
                     break;
                 default:
                     GetIETypedUrls();
+                    GetIEHistory2();
                     GetChromeHistory();
                     GetFirefoxHistory();
                     break;
