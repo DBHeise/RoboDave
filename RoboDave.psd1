@@ -11,7 +11,7 @@
 RootModule = 'RoboDave'
 
 # Version number of this module.
-ModuleVersion = '1.4.12.0216'
+ModuleVersion = '1.4.13.0816'
 
 # ID used to uniquely identify this module
 GUID = '9f1aaa1c-5d8d-4252-9dfd-c74fdd4e7e7a'
@@ -116,6 +116,7 @@ PrivateData = @{
 # DefaultCommandPrefix = ''
 
 }
+
 
 
 

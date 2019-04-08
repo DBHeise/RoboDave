@@ -68,6 +68,11 @@
     <Compile Include="Random\Rando.cs" />
     <Compile Include="Random\StringGenerator.cs" />
     <Compile Include="Random\StringTokenizer.cs" />
+    <Compile Include="Text\Languages\LanguageEnum.cs" />
+    <Compile Include="Text\Languages\LanguageFactory.cs" />
+    <Compile Include="Text\Languages\PowershellHelper.cs" />
+    <Compile Include="Text\ROTx.cs" />
+    <Compile Include="Text\StringReordering.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
