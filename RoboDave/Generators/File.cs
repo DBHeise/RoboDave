@@ -11,7 +11,7 @@ namespace RoboDave.Generators
 {
     [Cmdlet(VerbsCommon.New, "RandomFile", SupportsShouldProcess = true)]
     [OutputType(typeof(FileInfo))]
-    public class RandomFileCmdlet: PSCmdlet
+    public class RandomFileCmdlet : PSCmdlet
     {
         public RandomFileCmdlet()
         {
@@ -26,7 +26,7 @@ namespace RoboDave.Generators
         [Parameter(Mandatory = false, HelpMessage = "Type of string to generate")]
         public StringType StringType { get; set; }
 
-        [Parameter(Mandatory = true, HelpMessage = "Size of file to create")]
+        [Parameter(Mandatory = false, HelpMessage = "Size of file to create")]
         public UInt64 Size { get; set; }
 
         [Parameter(Mandatory = true, HelpMessage = "Output file")]
@@ -65,7 +65,7 @@ namespace RoboDave.Generators
                     break;
                 case StringType.Random:
                 default:
-                    System.IO.File.WriteAllBytes(this.OutputFile, Rando.GetBytes(this.Size));                    
+                    System.IO.File.WriteAllBytes(this.OutputFile, Rando.GetBytes(this.Size));
                     break;
             }
 

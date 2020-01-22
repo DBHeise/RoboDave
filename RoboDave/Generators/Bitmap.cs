@@ -80,7 +80,7 @@ namespace RoboDave.Generators
         RandomShape
     }
 
-    [Cmdlet(VerbsCommon.New, "RandomImage", SupportsShouldProcess = true)]
+    [Cmdlet(VerbsCommon.New, "RandomImage", SupportsShouldProcess = true, DefaultParameterSetName = "Random")]
     [OutputType(typeof(Bitmap))]
     public class RandomImage : PSCmdlet
     {
@@ -254,16 +254,16 @@ namespace RoboDave.Generators
         protected override void ProcessRecord()
         {
             Bitmap bmp;
-            switch (ParameterSetName)
+            switch (this.Type)
             {
-                case "SimpleShape":
+                case TypedImage.SimpleShape:
                     bmp = new Bitmap(this.Width, this.Height);
                     for (int i = 0; i < this.ShapeCount; i++)
                     {
                         drawShape(bmp, this.Shape, this.IsFilled, this.PolygonPointCount);
                     }                    
                     break;
-                case "Pixel":
+                case TypedImage.Pixel:
                     {
                         int smallWidth = (int)(this.Width / this.PixelSize);
                         int smallHeight = (int)(this.Height / this.PixelSize);
