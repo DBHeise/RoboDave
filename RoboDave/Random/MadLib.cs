@@ -26,12 +26,35 @@ namespace RoboDave.Random
         static String GetRandomItem(String key)
         {
             String ans = null;
+            String modifer = null;
+            if (key.Contains(":"))
+            {
+                String[] parts = key.SplitAtFirst(':');
+                key = parts[0];
+                modifer = parts[1];
+            }
+
             if (replacements.ContainsKey(key))
             {
                 int idx = Rando.RandomInt(0, replacements[key].Length);
                 ans = replacements[key][idx];
                 if (ans.StartsWith("[") && ans.EndsWith("]"))
                     ans = GetRandomItem(ans.Substring(1, ans.Length - 2).ToUpperInvariant());
+            }
+            if (!String.IsNullOrWhiteSpace(modifer))
+            {
+                switch(modifer.ToUpperInvariant())
+                {
+                    case "TITLECASE":
+                        ans = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(ans);
+                        break;
+                    case "UPPERCASE":
+                        ans = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToUpper(ans);
+                        break;
+                    case "LOWERCASE":
+                        ans = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToLower(ans);
+                        break;
+                }
             }
             return ans;
         }
@@ -154,10 +177,10 @@ namespace RoboDave.Random
                     }
                     else
                     {
-                        if (token.Type != StringTokenType.Punctuation || token.String == "_")
+                        if (token.Type != StringTokenType.Punctuation || token.String == "_" || token.String == ":")
                             replacer += token.String.ToUpperInvariant();
                         else if (token.String == "-")
-                            inIndex = true;
+                            inIndex = true;                        
                     }
                 }
                 else

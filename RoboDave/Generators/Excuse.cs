@@ -14,10 +14,10 @@ namespace RoboDave.Generators
         protected override void ProcessRecord()
         {
             string sentence = @"
-[interjection] [adjective] [person], 
+[Interjection:TitleCase] [adjective:TitleCase] [person:TitleCase], 
     Sorry, but I cannot [Verb_PresentTense] the [thing] because I am currently [Verb_Progressive] the [adjective] [thing].
 Sincerely,
-   Your [adjective] [relation].
+   Your [adjective:TitleCase] [relation:TitleCase].
 ";
             WriteObject(MadLibHelper.madlib.Generate(sentence));
         }
