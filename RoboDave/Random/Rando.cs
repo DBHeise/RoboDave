@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -131,6 +132,12 @@ namespace RoboDave
             randomNumGen.GetBytes(randomBytes);
             return randomBytes;
         }
+
+        public static Color RandomColor()
+        {
+            return Color.FromArgb(RandomInt(0, 255), RandomInt(0, 255), RandomInt(0, 255));
+        }
+
         public static byte[] GetBytes(int length)
         {
             RandomNumberGenerator randomNumGen = RandomNumberGenerator.Create();
