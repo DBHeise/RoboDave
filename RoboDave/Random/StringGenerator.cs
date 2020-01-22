@@ -130,6 +130,7 @@ namespace RoboDave.Random
         private static String GetSimpleSentenceStructure()
         {
             String[] simpleSentences = new String[] {
+                "The [ADJECTIVE] [NOUN] [VERB_PRESENTTENSE] [ADVERB].",
                 "The [ADJECTIVE-1] [OCCUPATION-2] [VERB_PASTTENSE-3] a [OBJECT-4] [ADVERB-5] the [OBJECT-6] [PLACE-7] for the [OCCUPATION-8].",
                 "The [COLOR-1] [ANIMAL-2] went to the [ADJECTIVE-3] [PLACE-4].",
                 "﻿The [PERSON] [VERB_PRESENTTENSE] [ADVERB].",
