@@ -23,4 +23,5 @@
 * New-MadLib - creates a MadLib string from text
 #### Imaging
 * New-RandomBitmap - generates a random bitmap
+* New-RandomImage - generates a random image based on pattens (random, pixels, shapes)
 * Get-BitmapFromFile - generates a bitmap from the bytes of the given file
