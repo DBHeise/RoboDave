@@ -66,6 +66,7 @@
     <Compile Include="Generators\RandomBitmapCmdletTest.cs" />
     <Compile Include="Generators\RandomFileCmdletTest.cs" />
     <Compile Include="Generators\RandomImageCmdletTest.cs" />
+    <Compile Include="Network\RemoteAddressesCmdletTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PSCmdletTest.cs" />
     <Compile Include="Random\MadLibTests.cs" />
