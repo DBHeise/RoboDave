@@ -13,30 +13,9 @@ namespace RoboDave.Forensic.Tests
     using System.Threading.Tasks;
 
     [TestClass]
-    public class FileHashCmdletTests
+    public class FileHashCmdletTests : RoboDave.Tests.PSCmdletTest
     {
-        private List<String> testFiles;
-        private PowerShell ps;
-
-        [TestInitialize]
-        public void TestInit()
-        {
-            ps = PowerShell.Create();
-            testFiles = new List<String>();
-            var folder = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            ps.AddCommand("Import-Module").AddParameter("Name", System.IO.Path.Combine(folder, "RoboDave.dll"));
-            ps.Invoke();
-        }
-
-        [TestCleanup]
-        public void TestCleanup()
-        {
-            ps.Dispose();
-            foreach(String file in testFiles)
-            {
-                System.IO.File.Delete(file);
-            }
-        }
+       
 
 
         [TestMethod]
@@ -55,10 +34,11 @@ namespace RoboDave.Forensic.Tests
             System.IO.File.WriteAllText(testFile, "this is a simple test",Encoding.ASCII);
                         
             ps.AddCommand("Get-FileHashBulk").AddParameter("InputFiles",testFile);
-            foreach(PSObject result in ps.Invoke())
+            var list = this.DoInvoke<HashResult>();
+            Assert.AreEqual(3, list.Count);
+
+            foreach (var hr in list)
             {
-                Assert.IsTrue(result.BaseObject is HashResult);
-                var hr = (HashResult)result.BaseObject;
                 switch(hr.Algorithm)
                 {
                     case "md5":

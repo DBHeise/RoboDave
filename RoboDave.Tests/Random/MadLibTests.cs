@@ -61,7 +61,7 @@ namespace RoboDave.Random.Tests
                     Char c = ansList[i];
                     if (Char.IsLetter(c))
                     {
-                        if (i == 0)
+                        if (i == 0 || ansList[i-1] == ' ' || ansList[i-1] == '-')
                         {
                             Assert.IsTrue(Char.IsUpper(c), String.Format("Character is not upper case: '{0}',{1},'{2}'", c, i, result));
                         }
