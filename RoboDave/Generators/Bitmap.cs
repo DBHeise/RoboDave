@@ -64,9 +64,25 @@ namespace RoboDave.Generators
 
     public enum TypedImage
     {
+        /// <summary>
+        /// Random bits of color
+        /// </summary>
         Random,
+
+        /// <summary>
+        /// Blocks of random color
+        /// </summary>
         Pixel,
-        SimpleShape
+
+        /// <summary>
+        /// Simple Shapes drawn randomly
+        /// </summary>
+        SimpleShape,
+
+        /// <summary>
+        /// Inserts simple shapes in blocks
+        /// </summary>
+        GridShapes
     }
 
     public enum Shapes
@@ -80,6 +96,34 @@ namespace RoboDave.Generators
         RandomShape
     }
 
+    /// <summary>
+    /// <para type="synopsis">Generates a new random image based on given patterns</para>
+    /// <para type="description"></para>
+    /// <example>
+    ///     <code>New-RandomImage -Type Random</code>
+    ///     <para>Creates a random bitmap</para>
+    /// </example>
+    /// <example>
+    ///     <code>New-RandomImage -Type Pixel -PixelSize 64 -Width 1024 -Height 1024</code>
+    ///     <para>Creates an image of size 1024x1024 with 'blocks' of 64 pixels</para>
+    /// </example>
+    /// <example>
+    ///     <code>New-RandomImage -Type SimpleShape -Width 1024 -Height 1024 -Shape Circle -ShapeCount 2 -IsFilled $true</code>
+    ///     <para>Creates an image of size 1024x1024 two filled circles of random size and color</para>
+    /// </example>
+    /// <example>
+    ///     <code>New-RandomImage -Type SimpleShape -Width 1024 -Height 1024 -Shape RandomPolygon -PolygonPointCount 22</code>
+    ///     <para>Creates an image of size 1024x1024 with one random polygon with 22 points</para>
+    /// </example>    
+    /// <example>
+    ///     <code>New-RandomImage -Type SimpleShape -Width 1024 -Height 1024 -Shape RandomShape -ShapeCount 20 -IsFilled $true</code>
+    ///     <para>Creates an image of size 1024x1024 with twenty random filled shapes of random size and color</para>
+    /// </example>    
+    /// <example>
+    ///     <code>New-RandomImage -Type GridShapes -Width 1024 -Height 1024 -PixelSize 64 -Shape RandomShape -IsFilled $true -PolygonPointCount 5</code>
+    ///     <para>Creates an image of size 1024x1024 with 16x16 blocks each with a random filled shape (and if its a polygon then it will have 5 points)</para>
+    /// </example>    
+    /// </summary>
     [Cmdlet(VerbsCommon.New, "RandomImage", SupportsShouldProcess = true, DefaultParameterSetName = "Random")]
     [OutputType(typeof(Bitmap))]
     public class RandomImage : PSCmdlet
@@ -95,7 +139,10 @@ namespace RoboDave.Generators
             this.PolygonPointCount = 5;
         }
 
-        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Type of Image to Generate")]
+        /// <summary>
+        /// <para type="description">Defines which algorithm to use to generate the image</para>
+        /// </summary>
+        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Type of image to generate, e.g. Random")]
         public TypedImage Type { get; set; }
 
         [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, HelpMessage = "Image Width")]
@@ -104,19 +151,19 @@ namespace RoboDave.Generators
         [Parameter(Position = 2, ValueFromPipelineByPropertyName = true, HelpMessage = "Image Height")]
         public UInt16 Height { get; set; }
 
-        [Parameter(ParameterSetName = "Pixel", ValueFromPipelineByPropertyName = true, HelpMessage = "Size of 'pixels'")]
+        [Parameter(ValueFromPipelineByPropertyName = true, HelpMessage = "Size of 'pixels'")]
         public UInt16 PixelSize { get; set; }
 
-        [Parameter(ParameterSetName = "SimpleShape", ValueFromPipelineByPropertyName = true, HelpMessage = "Shape to draw")]
+        [Parameter(ValueFromPipelineByPropertyName = true, HelpMessage = "Shape to draw")]
         public Shapes Shape { get; set; }
 
-        [Parameter(ParameterSetName = "SimpleShape", ValueFromPipelineByPropertyName = true, HelpMessage = "Should the shape be filled")]
+        [Parameter(ValueFromPipelineByPropertyName = true, HelpMessage = "Should the shape be filled")]
         public Boolean IsFilled { get; set; }
 
-        [Parameter(ParameterSetName = "SimpleShape", ValueFromPipelineByPropertyName = true, HelpMessage = "Number of shapes to draw")]
+        [Parameter(ValueFromPipelineByPropertyName = true, HelpMessage = "Number of shapes to draw")]
         public UInt16 ShapeCount { get; set; }
 
-        [Parameter(ParameterSetName = "SimpleShape", ValueFromPipelineByPropertyName = true, HelpMessage = "Number of points in the random polygon")]
+        [Parameter(ValueFromPipelineByPropertyName = true, HelpMessage = "Number of points in the random polygon")]
         public UInt16 PolygonPointCount { get; set; }
 
 
@@ -127,15 +174,13 @@ namespace RoboDave.Generators
             return Rando.RandomPick<Shapes>(list);
         }
 
-        private static void drawShape(Bitmap bmp, Shapes shape, Boolean isfilled, UInt16 polygonPointCount)
+        private static void drawShape(Graphics gfx, RectangleF area, Shapes shape, Boolean isfilled, UInt16 polygonPointCount)
         {
             Shapes trueshape = shape;
             if (trueshape == Shapes.RandomShape)
             {
                 trueshape = GetRandomShape();
             }
-
-            using (var gfx = Graphics.FromImage(bmp))
             using (var brush = new SolidBrush(Rando.RandomColor()))
             using (var pen = new Pen(brush, Rando.RandomFloat(0.5f, 10.0f)))
             {
@@ -143,42 +188,43 @@ namespace RoboDave.Generators
                 {
                     case Shapes.Square:
                         {
-                            int x = Rando.RandomInt(0, Math.Min(bmp.Width, bmp.Height));
-                            int width = Rando.RandomInt(1, Math.Min(bmp.Width, bmp.Height) - x);
-                            var rect = new Rectangle(x, x, width, width);
+                            float x = Rando.RandomFloat(area.X, area.X + area.Width);
+                            float y = Rando.RandomFloat(area.Y, area.Y + area.Height);
+                            float width = Rando.RandomFloat(1, Math.Min(area.Width, area.Height));
+                            var rect = new RectangleF(x, y, width, width);
                             if (isfilled)
                             {
                                 gfx.FillRectangle(brush, rect);
                             }
                             else
                             {
-                                gfx.DrawRectangle(pen, rect);
+                                gfx.DrawRectangle(pen, rect.X, rect.Y, rect.Width, rect.Height);
                             }
                         }
                         break;
                     case Shapes.Rectangle:
                         {
-                            int x = Rando.RandomInt(0, bmp.Width);
-                            int y = Rando.RandomInt(0, bmp.Height);
-                            int width = Rando.RandomInt(1, bmp.Width - x);
-                            int height = Rando.RandomInt(1, bmp.Height - y);
-                            var rect = new Rectangle(x, y, width, height);
+                            float x = Rando.RandomFloat(area.X, area.X + area.Width);
+                            float y = Rando.RandomFloat(area.Y, area.Y + area.Height);
+                            float width = Rando.RandomFloat(1, area.Width);
+                            float height = Rando.RandomFloat(1, area.Height);
+                            var rect = new RectangleF(x, y, width, height);
                             if (isfilled)
                             {
                                 gfx.FillRectangle(brush, rect);
                             }
                             else
                             {
-                                gfx.DrawRectangle(pen, rect);
+                                gfx.DrawRectangle(pen, rect.X, rect.Y, rect.Width, rect.Height);
                             }
                         }
                         break;
                     case Shapes.Circle:
                         {
-                            int cx = Rando.RandomInt(0, bmp.Width);
-                            int cy = Rando.RandomInt(0, bmp.Height);
-                            int radius = Rando.RandomInt(1, Math.Min(bmp.Width - cx, bmp.Height - cy));
-                            var rect = new Rectangle(cx - (radius / 2), cy - (radius / 2), radius, radius);
+                            float cx = Rando.RandomFloat(area.X, area.X + area.Width);
+                            float cy = Rando.RandomFloat(area.Y, area.Y + area.Height);
+                            float radius = Rando.RandomFloat(1, Math.Min(area.Width, area.Height));
+                            var rect = new RectangleF(cx - (radius / 2), cy - (radius / 2), radius, radius);
                             if (isfilled)
                             {
                                 gfx.FillEllipse(brush, rect);
@@ -191,11 +237,11 @@ namespace RoboDave.Generators
                         break;
                     case Shapes.Ellipse:
                         {
-                            int cx = Rando.RandomInt(0, bmp.Width);
-                            int cy = Rando.RandomInt(0, bmp.Height);
-                            int width = Rando.RandomInt(1, bmp.Width - cx);
-                            int height = Rando.RandomInt(1, bmp.Height - cy);
-                            var rect = new Rectangle(cx - (width / 2), cy - (height / 2), width, height);
+                            float cx = Rando.RandomFloat(area.X, area.X + area.Width);
+                            float cy = Rando.RandomFloat(area.Y, area.Y + area.Height);
+                            float width = Rando.RandomFloat(1, area.Width);
+                            float height = Rando.RandomFloat(1, area.Height);
+                            var rect = new RectangleF(cx - (width / 2), cy - (height / 2), width, height);
                             if (isfilled)
                             {
                                 gfx.FillEllipse(brush, rect);
@@ -208,15 +254,15 @@ namespace RoboDave.Generators
                         break;
                     case Shapes.Diamond:
                         {
-                            int cx = Rando.RandomInt(0, bmp.Width);
-                            int cy = Rando.RandomInt(0, bmp.Height);
-                            int radius = Rando.RandomInt(1, Math.Min(bmp.Width - cx, bmp.Height - cy));
-                            Point[] points = new Point[]
+                            float cx = Rando.RandomFloat(area.X, area.X + area.Width);
+                            float cy = Rando.RandomFloat(area.Y, area.Y + area.Height);
+                            float radius = Rando.RandomFloat(1, Math.Min(area.Width, area.Height));
+                            PointF[] points = new PointF[]
                             {
-                                    new Point(cx, cy-radius),
-                                    new Point(cx+radius, cy),
-                                    new Point(cx, cy+radius),
-                                    new Point(cx-radius, cy)
+                                    new PointF(cx, cy-radius),
+                                    new PointF(cx+radius, cy),
+                                    new PointF(cx, cy+radius),
+                                    new PointF(cx-radius, cy)
                             };
                             if (isfilled)
                             {
@@ -230,10 +276,12 @@ namespace RoboDave.Generators
                         break;
                     case Shapes.RandomPolygon:
                         {
-                            List<Point> points = new List<Point>();
-                            for (int i = 0; i < polygonPointCount; i++)
+                            List<PointF> points = new List<PointF>();
+                            for (float i = 0; i < polygonPointCount; i++)
                             {
-                                points.Add(new Point(Rando.RandomInt(0, bmp.Width), Rando.RandomInt(0, bmp.Height)));
+                                float x = Rando.RandomFloat(area.X, area.X + area.Width);
+                                float y = Rando.RandomFloat(area.Y, area.Y + area.Height);
+                                points.Add(new PointF(x,y));
                             }
                             if (isfilled)
                             {
@@ -246,22 +294,36 @@ namespace RoboDave.Generators
                         }
                         break;
                 }
+            }
+        }
+
+        private static void drawShape(Bitmap bmp, RectangleF area, Shapes shape, Boolean isfilled, UInt16 polygonPointCount)
+        {
+            using (var gfx = Graphics.FromImage(bmp))
+            {
+                drawShape(gfx, area, shape, isfilled, polygonPointCount);
                 gfx.Flush(System.Drawing.Drawing2D.FlushIntention.Sync);
             }
-
         }
 
         protected override void ProcessRecord()
         {
-            Bitmap bmp;
+            Bitmap bmp = null;
             switch (this.Type)
             {
                 case TypedImage.SimpleShape:
-                    bmp = new Bitmap(this.Width, this.Height);
-                    for (int i = 0; i < this.ShapeCount; i++)
                     {
-                        drawShape(bmp, this.Shape, this.IsFilled, this.PolygonPointCount);
-                    }                    
+                        bmp = new Bitmap(this.Width, this.Height);
+                        var unit = GraphicsUnit.Pixel;
+                        var rect = bmp.GetBounds(ref unit);
+                        using (var gfx = Graphics.FromImage(bmp))
+                        {
+                            for (int i = 0; i < this.ShapeCount; i++)
+                            {
+                                drawShape(gfx, rect, this.Shape, this.IsFilled, this.PolygonPointCount);
+                            }
+                        }
+                    }
                     break;
                 case TypedImage.Pixel:
                     {
@@ -289,9 +351,36 @@ namespace RoboDave.Generators
                         bmp = BitmapHelper.CreateBitmap(this.Width, this.Height, data);
                     }
                     break;
+                case TypedImage.GridShapes:
+                    {
+                        bmp = new Bitmap(this.Width, this.Height);
+                        List<RectangleF> gridBlocks = new List<RectangleF>();
+
+                        //Setup grid rectangles
+                        for (int y = 0; y < this.Height; y += this.PixelSize)
+                        {
+                            for (int x = 0; x < this.Width; x += this.PixelSize)
+                            {
+                                var rect = new RectangleF(x, y, this.PixelSize, this.PixelSize);
+                                gridBlocks.Add(rect);
+                            }
+                        }
+
+                        //create images for each grid rectangle
+                        using (var gfx = Graphics.FromImage(bmp))
+                        {
+                            foreach (var grid in gridBlocks)
+                            {
+                                drawShape(gfx, grid, this.Shape, this.IsFilled, this.PolygonPointCount);
+                            }
+                        }
+                    }
+                    break;
                 default:
-                    byte[] buffer = Rando.GetBytes(this.Width * this.Height);
-                    bmp = BitmapHelper.CreateBitmap(this.Width, this.Height, buffer);
+                    {
+                        byte[] buffer = Rando.GetBytes(this.Width * this.Height);
+                        bmp = BitmapHelper.CreateBitmap(this.Width, this.Height, buffer);
+                    }
                     break;
             }
             WriteObject(bmp);
