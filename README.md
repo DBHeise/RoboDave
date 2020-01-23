@@ -1,4 +1,5 @@
 # RoboDave - a powershell Module for misc stuff
+[![PowerShell Gallery - RoboDave](https://img.shields.io/badge/Powershell_Gallery-RoboDave-0072c6.svg)](https://www.powershellgallery.com/packages/robodave)
 [![Build Status](https://h2net.visualstudio.com/RoboDave/_apis/build/status/DBHeise.RoboDave?branchName=master)](https://h2net.visualstudio.com/RoboDave/_build/latest?definitionId=1&branchName=master)
 
 
