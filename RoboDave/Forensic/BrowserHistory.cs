@@ -112,21 +112,37 @@ namespace RoboDave.Forensic
             foreach (var userfolder in System.IO.Directory.GetDirectories(baseUserFolder))
             {
                 String user = userfolder.Replace(baseUserFolder, "").Replace("\\", "");
-                String folder = System.IO.Path.Combine(userfolder, "AppData", "Local", "Google", "Chrome", "User Data", "Default");
-                if (System.IO.Directory.Exists(folder))
+                String[] locs = new String[] { "Local", "LocalLow", "Roaming" };
+                foreach (var l in locs)
                 {
-                    String history = safeReadFile(System.IO.Path.Combine(folder, "History"));
-                    foreach (System.Text.RegularExpressions.Match match in regex.Matches(history))
+                    String chromeFolder = System.IO.Path.Combine(userfolder, "AppData", l, "Google", "Chrome", "User Data");
+                    if (System.IO.Directory.Exists(chromeFolder))
                     {
-                        var o = new BrowserHistory()
-                        {
-                            User = user,
-                            Browser = "Chrome",
-                            Url = match.Value
-                        };
-                        WriteObject(o);
+                        List<String> profiles = new List<string>(new String[] { Path.Combine(chromeFolder, "Default") });
+                        profiles.AddRange(Directory.GetDirectories(chromeFolder, "*Profile*"));
+                        
+                        foreach (var folder in profiles) {
+                            String profile = Path.GetFileName(folder);
+                            if (System.IO.Directory.Exists(folder))
+                            {
+                                String historyFile = Path.Combine(folder, "History");
+                                if (File.Exists(historyFile))
+                                {
+                                    String history = safeReadFile(historyFile);
+                                    foreach (System.Text.RegularExpressions.Match match in regex.Matches(history))
+                                    {
+                                        var o = new BrowserHistory()
+                                        {
+                                            User = user + ":" + profile,
+                                            Browser = "Chrome",
+                                            Url = match.Value
+                                        };
+                                        WriteObject(o);
+                                    }
+                                }
+                            }
+                        }
                     }
-
                 }
             }
         }
