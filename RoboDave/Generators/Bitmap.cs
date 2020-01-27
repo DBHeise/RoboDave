@@ -85,16 +85,7 @@ namespace RoboDave.Generators
         GridShapes
     }
 
-    public enum Shapes
-    {
-        Square,
-        Rectangle,
-        Circle,
-        Ellipse,
-        Diamond,
-        RandomPolygon,
-        RandomShape
-    }
+
 
     /// <summary>
     /// <para type="synopsis">Generates a new random image based on given patterns</para>
@@ -136,7 +127,6 @@ namespace RoboDave.Generators
             this.Width = 512;
             this.Height = 512;
             this.PixelSize = 32;
-            this.PolygonPointCount = 5;
         }
 
         /// <summary>
@@ -163,149 +153,23 @@ namespace RoboDave.Generators
         [Parameter(ValueFromPipelineByPropertyName = true, HelpMessage = "Number of shapes to draw")]
         public UInt16 ShapeCount { get; set; }
 
-        [Parameter(ValueFromPipelineByPropertyName = true, HelpMessage = "Number of points in the random polygon")]
-        public UInt16 PolygonPointCount { get; set; }
 
-
-        private static Shapes GetRandomShape()
+        public static List<RectangleF> GetGridBlocks(UInt16 width, UInt16 height, UInt16 pixelSize)
         {
-            List<Shapes> list = Enum.GetValues(typeof(Shapes)).Cast<Shapes>().ToList();
-            list.Remove(Shapes.RandomShape);
-            return Rando.RandomPick<Shapes>(list);
-        }
+            var ans = new List<RectangleF>();
 
-        private static void drawShape(Graphics gfx, RectangleF area, Shapes shape, Boolean isfilled, UInt16 polygonPointCount)
-        {
-            Shapes trueshape = shape;
-            if (trueshape == Shapes.RandomShape)
+            //Setup grid rectangles
+            for (int y = 0; y < height; y += pixelSize)
             {
-                trueshape = GetRandomShape();
-            }
-            using (var brush = new SolidBrush(Rando.RandomColor()))
-            using (var pen = new Pen(brush, Rando.RandomFloat(0.5f, 10.0f)))
-            {
-                switch (trueshape)
+                for (int x = 0; x < width; x += pixelSize)
                 {
-                    case Shapes.Square:
-                        {
-                            float x = Rando.RandomFloat(area.X, area.X + area.Width);
-                            float y = Rando.RandomFloat(area.Y, area.Y + area.Height);
-                            float width = Rando.RandomFloat(1, Math.Min(area.Width, area.Height));
-                            var rect = new RectangleF(x, y, width, width);
-                            if (isfilled)
-                            {
-                                gfx.FillRectangle(brush, rect);
-                            }
-                            else
-                            {
-                                gfx.DrawRectangle(pen, rect.X, rect.Y, rect.Width, rect.Height);
-                            }
-                        }
-                        break;
-                    case Shapes.Rectangle:
-                        {
-                            float x = Rando.RandomFloat(area.X, area.X + area.Width);
-                            float y = Rando.RandomFloat(area.Y, area.Y + area.Height);
-                            float width = Rando.RandomFloat(1, area.Width);
-                            float height = Rando.RandomFloat(1, area.Height);
-                            var rect = new RectangleF(x, y, width, height);
-                            if (isfilled)
-                            {
-                                gfx.FillRectangle(brush, rect);
-                            }
-                            else
-                            {
-                                gfx.DrawRectangle(pen, rect.X, rect.Y, rect.Width, rect.Height);
-                            }
-                        }
-                        break;
-                    case Shapes.Circle:
-                        {
-                            float cx = Rando.RandomFloat(area.X, area.X + area.Width);
-                            float cy = Rando.RandomFloat(area.Y, area.Y + area.Height);
-                            float radius = Rando.RandomFloat(1, Math.Min(area.Width, area.Height));
-                            var rect = new RectangleF(cx - (radius / 2), cy - (radius / 2), radius, radius);
-                            if (isfilled)
-                            {
-                                gfx.FillEllipse(brush, rect);
-                            }
-                            else
-                            {
-                                gfx.DrawEllipse(pen, rect);
-                            }
-                        }
-                        break;
-                    case Shapes.Ellipse:
-                        {
-                            float cx = Rando.RandomFloat(area.X, area.X + area.Width);
-                            float cy = Rando.RandomFloat(area.Y, area.Y + area.Height);
-                            float width = Rando.RandomFloat(1, area.Width);
-                            float height = Rando.RandomFloat(1, area.Height);
-                            var rect = new RectangleF(cx - (width / 2), cy - (height / 2), width, height);
-                            if (isfilled)
-                            {
-                                gfx.FillEllipse(brush, rect);
-                            }
-                            else
-                            {
-                                gfx.DrawEllipse(pen, rect);
-                            }
-                        }
-                        break;
-                    case Shapes.Diamond:
-                        {
-                            float cx = Rando.RandomFloat(area.X, area.X + area.Width);
-                            float cy = Rando.RandomFloat(area.Y, area.Y + area.Height);
-                            float radius = Rando.RandomFloat(1, Math.Min(area.Width, area.Height));
-                            PointF[] points = new PointF[]
-                            {
-                                    new PointF(cx, cy-radius),
-                                    new PointF(cx+radius, cy),
-                                    new PointF(cx, cy+radius),
-                                    new PointF(cx-radius, cy)
-                            };
-                            if (isfilled)
-                            {
-                                gfx.FillPolygon(brush, points);
-                            }
-                            else
-                            {
-                                gfx.DrawPolygon(pen, points);
-                            }
-                        }
-                        break;
-                    case Shapes.RandomPolygon:
-                        {
-                            List<PointF> points = new List<PointF>();
-                            for (float i = 0; i < polygonPointCount; i++)
-                            {
-                                float x = Rando.RandomFloat(area.X, area.X + area.Width);
-                                float y = Rando.RandomFloat(area.Y, area.Y + area.Height);
-                                points.Add(new PointF(x,y));
-                            }
-                            if (isfilled)
-                            {
-                                gfx.FillPolygon(brush, points.ToArray());
-                            }
-                            else
-                            {
-                                gfx.DrawPolygon(pen, points.ToArray());
-                            }
-                        }
-                        break;
+                    var rect = new RectangleF(x, y, pixelSize, pixelSize);
+                    ans.Add(rect);
                 }
             }
-        }
+            return ans;
 
-        private static void drawShape(Bitmap bmp, RectangleF area, Shapes shape, Boolean isfilled, UInt16 polygonPointCount)
-        {
-            using (var gfx = Graphics.FromImage(bmp))
-            {
-                drawShape(gfx, area, shape, isfilled, polygonPointCount);
-                gfx.Flush(System.Drawing.Drawing2D.FlushIntention.Sync);
-            }
         }
-
         protected override void ProcessRecord()
         {
             Bitmap bmp = null;
@@ -320,58 +184,61 @@ namespace RoboDave.Generators
                         {
                             for (int i = 0; i < this.ShapeCount; i++)
                             {
-                                drawShape(gfx, rect, this.Shape, this.IsFilled, this.PolygonPointCount);
+                                ShapesArtist.DrawShape(gfx, rect, this.Shape, true, this.IsFilled);
                             }
                         }
                     }
                     break;
                 case TypedImage.Pixel:
                     {
-                        int smallWidth = (int)(this.Width / this.PixelSize);
-                        int smallHeight = (int)(this.Height / this.PixelSize);
-                        int smallsize = (int)(smallWidth * smallHeight);
-                        byte[] dataSmall = Rando.GetBytes(smallsize);
-
                         byte[] data = new byte[this.Width * this.Height];
+                        byte[] c = null;
 
-                        for (int x = 0; x < this.Width; x++)
+                        for (int y = 0; y < this.Height; y++)
                         {
-                            for (int y = 0; y < this.Height; y++)
+                            if (y % this.PixelSize == 0)
                             {
-                                int idx = (x * this.Width) + y;
+                                c = Rando.GetBytes(this.Width / this.PixelSize);
+                            }
 
-                                int idxXSmall = (int)(x / this.PixelSize);
-                                int idxYSmall = (int)(y / this.PixelSize);
-                                int idxsmall = (idxXSmall * smallWidth) + idxYSmall;
+                            for (int x = 0; x < this.Width; x++)
+                            {
+                                int idx = (y * this.Width) + x;
 
-                                data[idx] = dataSmall[idxsmall % smallsize];
+                                data[idx] = c[x / this.PixelSize];
                             }
                         }
 
                         bmp = BitmapHelper.CreateBitmap(this.Width, this.Height, data);
+
+                        /// Alternate method to do the same thing
+
+                        //bmp = new Bitmap(this.Width, this.Height);
+                        //List<RectangleF> gridBlocks = getGridBlocks();
+                        //using (var gfx = Graphics.FromImage(bmp))
+                        //{
+                        //    foreach (var grid in gridBlocks)
+                        //    {
+                        //        using (var brush = new SolidBrush(Rando.RandomColor()))
+                        //        {
+                        //            ShapesArtist.DrawRectangle(gfx, brush, null, grid, true);
+                        //        }
+                        //    }
+                        //}
+
                     }
                     break;
                 case TypedImage.GridShapes:
                     {
                         bmp = new Bitmap(this.Width, this.Height);
-                        List<RectangleF> gridBlocks = new List<RectangleF>();
-
-                        //Setup grid rectangles
-                        for (int y = 0; y < this.Height; y += this.PixelSize)
-                        {
-                            for (int x = 0; x < this.Width; x += this.PixelSize)
-                            {
-                                var rect = new RectangleF(x, y, this.PixelSize, this.PixelSize);
-                                gridBlocks.Add(rect);
-                            }
-                        }
+                        List<RectangleF> gridBlocks = GetGridBlocks(this.Width, this.Height, this.PixelSize);
 
                         //create images for each grid rectangle
                         using (var gfx = Graphics.FromImage(bmp))
                         {
                             foreach (var grid in gridBlocks)
                             {
-                                drawShape(gfx, grid, this.Shape, this.IsFilled, this.PolygonPointCount);
+                                ShapesArtist.DrawShape(gfx, grid, this.Shape, false, this.IsFilled);
                             }
                         }
                     }

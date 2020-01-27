@@ -7,6 +7,8 @@ if (!(Test-Path $modFolder)) { New-Item -Path $modFolder -ItemType Directory -Fo
 $modFolder = Resolve-Path $modFolder
 
 Copy-Item -Path .\RoboDave\bin\Release\RoboDave.dll -Destination (Join-Path $modFolder 'RoboDave.dll')
+Copy-Item -Path .\RoboDave\bin\Release\RoboDave.xml -Destination (Join-Path $modFolder 'RoboDave.xml')
+Copy-Item -Path .\RoboDave\bin\Release\RoboDave.dll-Help.xml -Destination (Join-Path $modFolder 'RoboDave.dll-Help.xml')
 Copy-Item -Path .\RoboDave.psd1 -Destination (Join-Path $modFolder 'RoboDave.psd1')
 
 

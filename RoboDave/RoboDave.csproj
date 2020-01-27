@@ -6,7 +6,7 @@
     <OutputType>Library</OutputType>
     <NoStandardLibraries>false</NoStandardLibraries>
     <AssemblyName>RoboDave</AssemblyName>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -19,6 +19,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <DocumentationFile>bin\Debug\RoboDave.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -28,6 +29,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <DocumentationFile>bin\Release\RoboDave.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <RootNamespace>RoboDave</RootNamespace>
@@ -58,7 +60,14 @@
     <Compile Include="Generators\MadLib.cs" />
     <Compile Include="Generators\MEID.cs" />
     <Compile Include="Generators\Person.cs" />
+    <Compile Include="Generators\ShapesArtist.cs" />
     <Compile Include="Generators\Strings.cs" />
+    <Compile Include="Generators\VHash\Direct.cs" />
+    <Compile Include="Generators\VHash\Flag.cs" />
+    <Compile Include="Generators\VHash\HashedFlag.cs" />
+    <Compile Include="Generators\VHash\Emoji.cs" />
+    <Compile Include="Generators\VisualHash.cs" />
+    <Compile Include="Generators\VHash\VisualHasher.cs" />
     <Compile Include="Geo\Coordinate.cs" />
     <Compile Include="Network\LocalAddresses.cs" />
     <Compile Include="Network\LocalhostFQDN.cs" />
@@ -86,4 +95,7 @@
   <ProjectExtensions>
     <VisualStudio AllowExistingFolder="true" />
   </ProjectExtensions>
+  <PropertyGroup>
+    <PostBuildEvent>%25LIBDIR%25\XmlDoc2CmdletDoc.0.2.13\tools\XmlDoc2CmdletDoc.exe $(TargetPath)</PostBuildEvent>
+  </PropertyGroup>
 </Project>
