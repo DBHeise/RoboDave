@@ -1,6 +1,5 @@
-#
-
-$apiKey = Read-Host -Prompt "Enter PSGallery API Key"
+[CmdletBinding()]
+param([String]$apiKey = (Read-Host -Prompt "Enter PSGallery API Key"))
 
 $modFolder = '.\bin\RoboDave'
 if (!(Test-Path $modFolder)) { New-Item -Path $modFolder -ItemType Directory -Force | Out-Null}

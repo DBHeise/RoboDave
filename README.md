@@ -26,4 +26,4 @@ Current Version: 1.4.17.2712
 * [New-RandomBitmap](https://github.com/DBHeise/RoboDave/wiki/New-RandomBitmap) - generates a random bitmap
 * [New-RandomImage](https://github.com/DBHeise/RoboDave/wiki/New-RandomImage) - generates a random image based on pattens (random, pixels, shapes)
 * [Get-BitmapFromFile](https://github.com/DBHeise/RoboDave/wiki/Get-BitmapFromFile) - generates a bitmap from the bytes of the given file
-* [Get-VisualHash](https://github.com/DBHeise/RoboDave/wiki/Get-BitmapFromFile) - generates an image from an input
+* [Get-VisualHash](https://github.com/DBHeise/RoboDave/wiki/Get-VisualHash) - generates an image from an input
