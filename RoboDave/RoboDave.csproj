@@ -57,6 +57,9 @@
     <Compile Include="Generators\DateTime.cs" />
     <Compile Include="Generators\Excuse.cs" />
     <Compile Include="Generators\File.cs" />
+    <Compile Include="Generators\File.csv.cs" />
+    <Compile Include="Generators\File.json.cs" />
+    <Compile Include="Generators\File.xml.cs" />
     <Compile Include="Generators\MadLib.cs" />
     <Compile Include="Generators\MEID.cs" />
     <Compile Include="Generators\Person.cs" />

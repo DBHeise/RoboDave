@@ -46,7 +46,7 @@ namespace RoboDave.Random.Tests
             actual = StringGenerator.GetString(type, length);
             AssertStringType(type, actual);
 
-            if (type != StringType.Name && type != StringType.Sentence && type != StringType.Word && type != StringType.Email && type != StringType.EmailSimple && type != StringType.TLD && type != StringType.Uri)
+            if (type != StringType.Name && type != StringType.Sentence && type != StringType.Word && type != StringType.Email && type != StringType.EmailSimple && type != StringType.TLD && type != StringType.Uri && type != StringType.IPAddress && type != StringType.IPv4 && type != StringType.IPv6)
                 Assert.AreEqual((int)length, actual.Length);
 
         }

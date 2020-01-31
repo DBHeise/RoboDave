@@ -2,7 +2,7 @@
 [![PowerShell Gallery - RoboDave](https://img.shields.io/badge/Powershell_Gallery-RoboDave-0072c6.svg)](https://www.powershellgallery.com/packages/robodave)
 [![Build Status](https://h2net.visualstudio.com/RoboDave/_apis/build/status/DBHeise.RoboDave?branchName=master)](https://h2net.visualstudio.com/RoboDave/_build/latest?definitionId=1&branchName=master)
 
-Current Version: 1.4.17.2712
+Current Version: 1.4.18.3114
 
 ## Available cmdlets:
 ### Networking
@@ -19,6 +19,8 @@ Current Version: 1.4.17.2712
 * [New-RandomString](https://github.com/DBHeise/RoboDave/wiki/New-RandomString) - generates a random string (many options)
 * [New-RandomExcuse](https://github.com/DBHeise/RoboDave/wiki/New-RandomExcuse) - generates a simple excuse letter
 * [New-RandomFile](https://github.com/DBHeise/RoboDave/wiki/New-RandomFile) - generates a random filled file
+* [New-RandomCSVFile](https://github.com/DBHeise/RoboDave/wiki/New-RandomCSVFile) - generates a random CSV file
+
 #### MadLib
 * [Use-MadLib](https://github.com/DBHeise/RoboDave/wiki/Use-MadLib) - fills out a MadLib string
 * [New-MadLib](https://github.com/DBHeise/RoboDave/wiki/New-MadLib) - creates a MadLib string from text

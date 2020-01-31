@@ -7,7 +7,7 @@ namespace RoboDave.Random
     using System.Text;
     using System.Threading.Tasks;
 
-    
+
     /// <summary>
     /// Types of Strings
     /// </summary>
@@ -30,7 +30,10 @@ namespace RoboDave.Random
         TLD,
         LowerCase,
         UpperCase,
-        Uri
+        Uri,
+        IPAddress,
+        IPv4,
+        IPv6
     }
 
     /// <summary>
@@ -100,6 +103,34 @@ namespace RoboDave.Random
                     break;
                 case StringType.Uri:
                     ans = GenerateUri();
+                    break;
+                case StringType.IPAddress:
+                    if (Rando.RandomBoolean())
+                    {
+                        ans = GetString(StringType.IPv4);
+                    }
+                    else
+                    {
+                        ans = GetString(StringType.IPv6);
+                    }
+                    break;
+                case StringType.IPv4:
+                    ans = (new System.Net.IPAddress((long)Rando.RandomInt(0, int.MaxValue))).ToString();
+                    break;
+                case StringType.IPv6:
+                    {
+                        StringBuilder sb = new StringBuilder();
+                        for (int i = 0; i < 8; i++)
+                        {
+                            if (i != 0)
+                                sb.Append(":");
+                            
+                            if (!Rando.RandomBoolean(10))
+                                sb.Append(GetString(StringType.Hex, 4));
+                        }
+
+                        ans = sb.ToString();
+                    }
                     break;
             }
             if (useMadLib)
