@@ -19,6 +19,7 @@ Current Version: 1.4.18.3114
 * [New-RandomString](https://github.com/DBHeise/RoboDave/wiki/New-RandomString) - generates a random string (many options)
 * [New-RandomExcuse](https://github.com/DBHeise/RoboDave/wiki/New-RandomExcuse) - generates a simple excuse letter
 * [New-RandomFile](https://github.com/DBHeise/RoboDave/wiki/New-RandomFile) - generates a random filled file
+* [New-RandomBinaryFile](https://github.com/DBHeise/RoboDave/wiki/New-RandomBinaryFile) - generates a random binary file
 * [New-RandomCSVFile](https://github.com/DBHeise/RoboDave/wiki/New-RandomCSVFile) - generates a random CSV file
 
 #### MadLib
