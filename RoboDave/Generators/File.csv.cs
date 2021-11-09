@@ -13,7 +13,7 @@ namespace RoboDave.Generators
 
     /// <summary>
     /// <para type="synopsis">Generates a random CSV file</para>
-    /// <para type="discription">Generates a random CSV file </para>
+    /// <para type="description">Generates a random CSV file </para>
     /// <example>
     ///     <code>New-RandomCSVFile -RowCount 10 -OutputFile E:\temp\random.csv</code>
     ///     <para>Generates a random CSV file with 10 rows and a randomly generated columns and data</para>
@@ -91,7 +91,6 @@ namespace RoboDave.Generators
             }
             else
             {
-
                 foreach (var key in this.Columns.Keys)
                 {
                     ans.Add((String)key);

@@ -34,6 +34,9 @@
   <PropertyGroup>
     <RootNamespace>RoboDave</RootNamespace>
   </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
@@ -56,6 +59,7 @@
     <Compile Include="Generators\Coordinate.cs" />
     <Compile Include="Generators\DateTime.cs" />
     <Compile Include="Generators\Excuse.cs" />
+    <Compile Include="Generators\File.binary.cs" />
     <Compile Include="Generators\File.cs" />
     <Compile Include="Generators\File.csv.cs" />
     <Compile Include="Generators\File.json.cs" />
@@ -80,6 +84,7 @@
     <Compile Include="Random\Rando.cs" />
     <Compile Include="Random\StringGenerator.cs" />
     <Compile Include="Random\StringTokenizer.cs" />
+    <Compile Include="Text\CustomBase.cs" />
     <Compile Include="Text\Languages\LanguageEnum.cs" />
     <Compile Include="Text\Languages\LanguageFactory.cs" />
     <Compile Include="Text\Languages\PowershellHelper.cs" />
@@ -99,6 +104,7 @@
     <VisualStudio AllowExistingFolder="true" />
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>powershell.exe -NoProfile -NonInteractive -File $(SolutionDir)\postBuild.ps1 -TargetPath $(TargetPath)</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>

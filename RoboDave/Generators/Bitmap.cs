@@ -25,15 +25,46 @@ namespace RoboDave.Generators
 
     }
 
+    /// <summary>
+    /// <para type="synopsis">Generates a random bitmap</para>
+    /// <para type="discription">Generates a random bitmap (8 bits per pixel, indexed)</para>
+    /// <example>
+    ///     <code>New-RandomBitmap</code>
+    ///     <para>Generates a random bitmap 100 by 100 pixels</para>
+    /// </example>
+    /// <example>
+    ///     <code>New-RandomBitmap -Width 512 -Height 1024</code>
+    ///     <para>Generates a random bitmap 512 by 1024 pixels</para>
+    /// </example>
+    /// </summary>
     [Cmdlet(VerbsCommon.New, "RandomBitmap", SupportsShouldProcess = true)]
     [OutputType(typeof(Bitmap))]
     public class RandomBitmapCmdlet : PSCmdlet
     {
-        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Image Width")]
+        /// <summary>
+        /// RandomBitmapCmdlet Constructor
+        /// </summary>
+        public RandomBitmapCmdlet() : base()
+        {
+            this.Width = 100;
+            this.Height = 100;
+        }
+
+        /// <summary>
+        /// Width of the image to generate (in pixels)
+        /// </summary>
+        [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, HelpMessage = "Image Width")]
         public UInt16 Width { get; set; }
-        [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Image Height")]
+
+        /// <summary>
+        /// Height of the image to generate (in pixels)
+        /// </summary>
+        [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, HelpMessage = "Image Height")]
         public UInt16 Height { get; set; }
 
+        /// <summary>
+        /// ProcessRecord - core powershell function
+        /// </summary>
         protected override void ProcessRecord()
         {
             byte[] buffer = Rando.GetBytes(this.Width * this.Height);
@@ -44,14 +75,32 @@ namespace RoboDave.Generators
 
 
     }
-
+    /// <summary>
+    /// <para type="synopsis">Returns a bitmap from a file</para>
+    /// <para type="description">takes an input file and turns it into a bitmap using the bytes of the file as data</para>
+    /// <example>
+    ///     <code>Get-BitmapFromFile -InputFile C:\foo.bar</code>
+    ///     <para>Generates a bitmap from the C:\foo.bar file</para>
+    /// </example>
+    /// <example>
+    ///     <code>Get-ChildItem E:\Temp\*.txt | Get-BitmapFromFile</code>
+    ///     <para>Takes all the files in the E:\Temp folder and returns bitmaps for each of them</para>
+    /// </example>
+    /// </summary>
     [Cmdlet(VerbsCommon.Get, "BitmapFromFile", SupportsShouldProcess = true)]
     [OutputType(typeof(Bitmap))]
     public class BitmapFromFileCmdlet : PSCmdlet
     {
+        /// <summary>
+        /// The file to use as data for the bitmap
+        /// </summary>
         [Parameter(Position = 0, Mandatory = true, ValueFromPipeline = true, HelpMessage = "Input file")]
+        [Alias("FullName")]
         public String InputFile { get; set; }
 
+        /// <summary>
+        /// Cmdlet ProcessRecord - main function for cmdlet work
+        /// </summary>
         protected override void ProcessRecord()
         {
             byte[] buffer = System.IO.File.ReadAllBytes(this.InputFile);
@@ -62,6 +111,9 @@ namespace RoboDave.Generators
         }
     }
 
+    /// <summary>
+    /// TypedImage - specifies the algorithm for image generation
+    /// </summary>
     public enum TypedImage
     {
         /// <summary>
@@ -103,22 +155,25 @@ namespace RoboDave.Generators
     ///     <para>Creates an image of size 1024x1024 two filled circles of random size and color</para>
     /// </example>
     /// <example>
-    ///     <code>New-RandomImage -Type SimpleShape -Width 1024 -Height 1024 -Shape RandomPolygon -PolygonPointCount 22</code>
-    ///     <para>Creates an image of size 1024x1024 with one random polygon with 22 points</para>
+    ///     <code>New-RandomImage -Type SimpleShape -Width 1024 -Height 1024 -Shape RandomPolygon</code>
+    ///     <para>Creates an image of size 1024x1024 with one random polygon</para>
     /// </example>    
     /// <example>
     ///     <code>New-RandomImage -Type SimpleShape -Width 1024 -Height 1024 -Shape RandomShape -ShapeCount 20 -IsFilled $true</code>
     ///     <para>Creates an image of size 1024x1024 with twenty random filled shapes of random size and color</para>
     /// </example>    
     /// <example>
-    ///     <code>New-RandomImage -Type GridShapes -Width 1024 -Height 1024 -PixelSize 64 -Shape RandomShape -IsFilled $true -PolygonPointCount 5</code>
-    ///     <para>Creates an image of size 1024x1024 with 16x16 blocks each with a random filled shape (and if its a polygon then it will have 5 points)</para>
+    ///     <code>New-RandomImage -Type GridShapes -Width 1024 -Height 1024 -PixelSize 64 -Shape RandomShape -IsFilled $true </code>
+    ///     <para>Creates an image of size 1024x1024 with 16x16 blocks each with a random filled shape</para>
     /// </example>    
     /// </summary>
     [Cmdlet(VerbsCommon.New, "RandomImage", SupportsShouldProcess = true, DefaultParameterSetName = "Random")]
     [OutputType(typeof(Bitmap))]
     public class RandomImage : PSCmdlet
     {
+        /// <summary>
+        /// RandomImage Cmdlet constructor
+        /// </summary>
         public RandomImage()
         {
             this.ShapeCount = 1;
@@ -135,25 +190,49 @@ namespace RoboDave.Generators
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Type of image to generate, e.g. Random")]
         public TypedImage Type { get; set; }
 
+        /// <summary>
+        /// <para type="description">The Width (in pixels) of the bitmap</para>
+        /// </summary>
         [Parameter(Position = 1, ValueFromPipelineByPropertyName = true, HelpMessage = "Image Width")]
         public UInt16 Width { get; set; }
 
+        /// <summary>
+        /// <para type="description">The Height (in pixels) of the bitmap</para>
+        /// </summary>
         [Parameter(Position = 2, ValueFromPipelineByPropertyName = true, HelpMessage = "Image Height")]
         public UInt16 Height { get; set; }
 
+        /// <summary>
+        /// <para type="description">The nubmer of pixels per grid area (used only in Shape=Pixel and Shape=GridShapes)</para>
+        /// </summary>
         [Parameter(ValueFromPipelineByPropertyName = true, HelpMessage = "Size of 'pixels'")]
         public UInt16 PixelSize { get; set; }
 
+        /// <summary>
+        /// <para type="description">The Shape to use (used only in Shape=SimpleShape and Shape=GridShapes)</para>
+        /// </summary>
         [Parameter(ValueFromPipelineByPropertyName = true, HelpMessage = "Shape to draw")]
         public Shapes Shape { get; set; }
 
+        /// <summary>
+        /// <para type="description">Is the drawn shaped filled (used only in Shape=SimpleShape and Shape=GridShapes)</para>
+        /// </summary>
         [Parameter(ValueFromPipelineByPropertyName = true, HelpMessage = "Should the shape be filled")]
         public Boolean IsFilled { get; set; }
 
+        /// <summary>
+        /// <para type="description">The number of shapes to draw (used only in Shape=SimpleShape)</para>
+        /// </summary>
         [Parameter(ValueFromPipelineByPropertyName = true, HelpMessage = "Number of shapes to draw")]
         public UInt16 ShapeCount { get; set; }
 
-
+        /// <summary>
+        /// GetGridBlocks - splits the area (width by height) into blocks of pixelSize
+        /// </summary>
+        /// <param name="width">Width of the orignial area</param>
+        /// <param name="height">Height of the orginial area</param>
+        /// <param name="pixelSize">Number of pixels to form a block</param>
+        /// <returns></returns>
         public static List<RectangleF> GetGridBlocks(UInt16 width, UInt16 height, UInt16 pixelSize)
         {
             var ans = new List<RectangleF>();
@@ -170,6 +249,10 @@ namespace RoboDave.Generators
             return ans;
 
         }
+
+        /// <summary>
+        /// ProcessRecord - primary powershell cmdlet entrance
+        /// </summary>
         protected override void ProcessRecord()
         {
             Bitmap bmp = null;
@@ -211,7 +294,7 @@ namespace RoboDave.Generators
 
                         bmp = BitmapHelper.CreateBitmap(this.Width, this.Height, data);
 
-                        /// Alternate method to do the same thing
+                        // Alternate method to do the same thing
 
                         //bmp = new Bitmap(this.Width, this.Height);
                         //List<RectangleF> gridBlocks = getGridBlocks();

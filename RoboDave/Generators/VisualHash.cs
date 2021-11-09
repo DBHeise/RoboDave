@@ -9,6 +9,14 @@ using System.Threading.Tasks;
 
 namespace RoboDave.Generators
 {
+    /// <summary>
+    /// <para type="synopsis">Generates a visual representation of the input data</para>
+    /// <para type="description">creates a visual hash of the input data</para>
+    /// <example>
+    ///     <code></code>
+    ///     <para></para>
+    /// </example>
+    /// </summary>
     [Cmdlet(VerbsCommon.Get, "VisualHash", SupportsShouldProcess = true, DefaultParameterSetName = "text")]
     [OutputType(typeof(Bitmap))]
     public class VisualHash : PSCmdlet

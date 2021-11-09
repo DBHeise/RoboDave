@@ -87,6 +87,7 @@
     <Compile Include="Random\StringGeneratorTests.cs" />
     <Compile Include="Random\StringTokenizerTests.cs" />
     <Compile Include="Text\StringReorderingTests.cs" />
+    <Compile Include="Text\CustomBaseTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RoboDave\RoboDave.csproj">

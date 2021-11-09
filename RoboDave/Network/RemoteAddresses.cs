@@ -11,13 +11,37 @@ namespace RoboDave.Network
     using System.IO;
     using System.Text.RegularExpressions;
 
+    /// <summary>
+    /// Contains information about a remotely provided IPAddress
+    /// </summary>
     public struct RemoteAddressInfo
     {
+        /// <summary>
+        /// Name of provider of IPAddress information
+        /// </summary>
         public String Provider { get; private set; }
+
+        /// <summary>
+        /// General status of the result
+        /// </summary>
         public String Status { get; private set; }
+
+        /// <summary>
+        /// IPAddress returned by the service
+        /// </summary>
         public IPAddress Address { get; private set; }
+
+        /// <summary>
+        /// Raw return result of the service
+        /// </summary>
         public String Raw { get; private set; }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="provider">name of provider</param>
+        /// <param name="status">status of service call</param>
+        /// <param name="address">IPAddress</param>
         public RemoteAddressInfo(String provider, String status, IPAddress address)
         {
             this.Provider = provider;
@@ -25,6 +49,13 @@ namespace RoboDave.Network
             this.Address = address;
             this.Raw = null;
         }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="provider">name of provider</param>
+        /// <param name="status">status of service call</param>
+        /// <param name="address">IPAddress or raw data</param>
         public RemoteAddressInfo(String provider, String status, String address)
         {
             this.Provider = provider;
@@ -55,7 +86,14 @@ namespace RoboDave.Network
         }
     }
 
-
+    /// <summary>
+    /// <para type="synopsis">Uses Remote Endpoints/Services to determine the remote IP Address</para>
+    /// <para type="description">Calls various endpoints to determine the remotely visible IP Address of this system</para>
+    /// <example>
+    ///     <code>Get-RemoteAddresses</code>
+    ///     <para>Calls the default remote services/endpoints</para>
+    /// </example>
+    /// </summary>
     [Cmdlet(VerbsCommon.Get, "RemoteAddresses", SupportsShouldProcess = true)]
     [OutputType(typeof(RemoteAddressInfo))]
     public class RemoteAddressesCmdlet : PSCmdlet
@@ -74,10 +112,15 @@ namespace RoboDave.Network
             };
         }
 
+        /// <summary>
+        /// List of remote endpoints/services to call
+        /// </summary>
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "List of remote endpoints")]
         public String[] RemoteEndpoints { get; set; }
 
-
+        /// <summary>
+        /// ProcessRecord - core powershell function
+        /// </summary>
         protected override void ProcessRecord()
         {
             foreach (var server in this.RemoteEndpoints)

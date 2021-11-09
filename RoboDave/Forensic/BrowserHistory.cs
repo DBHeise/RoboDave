@@ -6,20 +6,59 @@ using System.Text;
 
 namespace RoboDave.Forensic
 {
-
+    /// <summary>
+    /// Browser History - a simple object containing browser history information
+    /// </summary>
     public class BrowserHistory
     {
+        /// <summary>
+        /// The user and/or profile
+        /// </summary>
         public String User { get; set; }
+        
+        /// <summary>
+        /// The browser / source
+        /// </summary>
         public String Browser { get; set; }
+        
+        /// <summary>
+        /// The timestamp it was visitied (not always present)
+        /// </summary>
         public DateTime? Timestamp { get; set; }
+        
+        /// <summary>
+        /// The URL visited
+        /// </summary>
         public String Url { get; set; }
     }
 
+    /// <summary>
+    /// <para type="synopsis">Retrieves the local browser history</para>
+    /// <para type="description">Uses different methods for IE/Edge, Chrome, and Firefox browsers to retrieve a list of URLs that have been visisted</para>
+    /// <example>
+    ///     <code>Get-BrowserHistory</code>
+    ///     <para>Retrieves all the browser history on the local machine</para>
+    /// </example>
+    /// <example>
+    ///     <code>Get-BrowserHistory -Browser IE</code>
+    ///     <para>Retrieves the IE/Edge browser history (from WinINet and TypedURLs) on the local machine for the current user</para>
+    /// </example>
+    /// <example>
+    ///     <code>Get-BrowserHistory -Browser Chrome</code>
+    ///     <para>Retrieves the Chrome browser history on the local machine for all users and profiles</para>
+    /// </example>
+    /// <example>
+    ///     <code>Get-BrowserHistory -Browser Firefox</code>
+    ///     <para>Retrieves the IE/Edge browser history on the local machine for the current user/profile</para>
+    /// </example>
+    /// </summary>
     [Cmdlet(VerbsCommon.Get, "BrowserHistory", SupportsShouldProcess = true)]
     [OutputType(typeof(BrowserHistory[]))]
     public class BrowserHistoryCmdlet : PSCmdlet
     {
-
+        /// <summary>
+        /// <para type="description"></para>
+        /// </summary>
         [Parameter(Position = 0, Mandatory = false, HelpMessage = "Which browser to use (default: all)")]
         [ValidateSet("all", "ie", "chrome", "firefox")]
         public String Browser { get; set; }
